@@ -11,7 +11,7 @@ class Post extends Model
     use HasFactory;
     use Sluggable;
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = ['title', 'slug', 'description', 'image_path', 'user_id'];
 

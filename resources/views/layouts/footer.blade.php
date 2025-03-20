@@ -43,20 +43,20 @@
         </div>
 
         <!-- Latest Blog Posts (Dynamic) -->
-{{--        <div>--}}
-{{--            <h3 class="text-lg font-bold text-white uppercase">--}}
-{{--                Latest Posts--}}
-{{--            </h3>--}}
-{{--            <ul class="py-4 text-sm pt-4 text-gray-300">--}}
-{{--                @foreach($latestPosts as $post)--}}
-{{--                    <li class="pb-1">--}}
-{{--                        <a href="{{ route('blog.show', $post->id) }}" class="hover:text-orange-400 transition">--}}
-{{--                            {{ $post->title }}--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-{{--                @endforeach--}}
-{{--            </ul>--}}
-{{--        </div>--}}
+        <div>
+            <h3 class="text-lg font-bold text-white uppercase">
+                Latest Posts
+            </h3>
+            <ul class="py-4 text-sm pt-4 text-gray-300">
+                @foreach($latestPosts as $post)
+                    <li class="pb-1">
+                        <a href="{{ route('blogs.show', $post->slug) }}" class="hover:text-orange-400 transition">
+                            {{ $post->title }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
     </div>
 
     <!-- Copyright Section -->
