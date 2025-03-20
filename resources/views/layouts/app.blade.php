@@ -15,6 +15,29 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdownToggle = document.getElementById("dropdown-toggle");
+        const dropdownMenu = document.getElementById("dropdown-menu");
+
+        if (dropdownToggle && dropdownMenu) {
+            dropdownToggle.addEventListener("click", function (event) {
+                event.stopPropagation(); // Prevent immediate close
+                dropdownMenu.classList.toggle("hidden");
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener("click", function (event) {
+                if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.add("hidden");
+                }
+            });
+        } else {
+            console.error("Dropdown elements not found");
+        }
+    });
+</script>
+
 <body class="bg-gray-100 h-screen antialiased leading-none font-sans">
     <div id="app">
         <header class="bg-gradient-to-r from-yellow-800 to-orange-700 py-5 shadow-lg">
@@ -30,12 +53,15 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <nav class="space-x-6 text-white text-lg hidden md:flex">
+                <nav id="main-menu" class="space-x-6 text-white text-lg hidden md:flex md:items-center md:space-x-6 flex-col md:flex-row bg-yellow-800 md:bg-transparent absolute md:relative top-full left-0 w-full md:w-auto shadow-lg md:shadow-none p-6 md:p-0">
                     <a href="/" class="{{ request()->is('/') ? 'text-yellow-300 font-bold border-b-2 border-yellow-300' : 'hover:text-yellow-300 transition duration-300' }}">
                         Home
                     </a>
                     <a href="/blogs" class="{{ request()->is('blogs') ? 'text-yellow-300 font-bold border-b-2 border-yellow-300' : 'hover:text-yellow-300 transition duration-300' }}">
                         Blog
+                    </a>
+                    <a href="{{ route('top50') }}" class="{{ request()->is('top50') ? 'text-yellow-300 font-bold border-b-2 border-yellow-300' : 'hover:text-yellow-300 transition duration-300' }}">
+                        Top 50
                     </a>
                     @guest
                         <a href="{{ route('login') }}" class="{{ request()->is('login') ? 'text-yellow-300 font-bold border-b-2 border-yellow-300' : 'hover:text-yellow-300 transition duration-300' }}">
@@ -47,16 +73,21 @@
                             </a>
                         @endif
                     @else
-                        <div class="relative group">
-                            <button class="focus:outline-none flex items-center space-x-2">
-                                <span class="font-semibold">{{ Auth::user()->name }}</span>
+                        <div class="relative inline-block text-left">
+                            <a href="{{ route('profile') }}" class="font-semibold hover:underline text-white">
+                                {{ Auth::user()->name }}
+                            </a>
+
+                            <!-- Dropdown Button -->
+                            <button id="dropdown-toggle" class="ml-2 focus:outline-none">
                                 <svg class="w-5 h-5" fill="white" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
                                 </svg>
                             </button>
-                            <!-- Dropdown -->
-                            <div class="absolute right-0 mt-2 w-40 bg-yellow-800 rounded-md shadow-lg hidden group-hover:block">
-                                <a href="/profile" class="block px-4 py-2 text-white hover:bg-yellow-700">Profile</a>
+
+                            <!-- Dropdown Menu -->
+                            <div id="dropdown-menu" class="absolute right-0 mt-2 w-40 bg-yellow-800 rounded-md shadow-lg hidden">
+                                <a href="{{ route('profile') }}" class="block px-4 py-2 text-white hover:bg-yellow-700">Profile</a>
                                 <a href="{{ route('logout') }}" class="block px-4 py-2 text-white hover:bg-yellow-700"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
@@ -66,6 +97,7 @@
                         </div>
                     @endguest
                 </nav>
+
 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden">
@@ -78,14 +110,17 @@
             </div>
 
             <!-- Mobile Navigation Menu -->
-            <div id="mobile-menu" class="hidden md:hidden bg-yellow-800 text-white text-lg px-6 py-4">
+            <div id="mobile-menu" class="hidden bg-yellow-800 text-white text-lg px-6 py-4">
                 <a href="/" class="{{ request()->is('/') ? 'text-yellow-300 font-bold border-b-2 border-yellow-300' : 'hover:text-yellow-300 transition duration-300' }}">
                     Home
                 </a>
                 <a href="/blogs" class="{{ request()->is('blogs') ? 'text-yellow-300 font-bold border-b-2 border-yellow-300' : 'hover:text-yellow-300 transition duration-300' }}">
                     Blog
                 </a>
-                @guest
+                <a href="{{ route('top50') }}" class="{{ request()->is('top50') ? 'text-yellow-300 font-bold border-b-2 border-yellow-300' : 'hover:text-yellow-300 transition duration-300' }}">
+                    Top 50
+                </a>
+            @guest
                     <a href="{{ route('login') }}" class="{{ request()->is('login') ? 'text-yellow-300 font-bold border-b-2 border-yellow-300' : 'hover:text-yellow-300 transition duration-300' }}">
                         Login
                     </a>
@@ -103,10 +138,33 @@
 
             <!-- Mobile Menu Toggle Script -->
             <script>
-                document.getElementById('mobile-menu-button').addEventListener('click', function() {
-                    document.getElementById('mobile-menu').classList.toggle('hidden');
+                document.addEventListener("DOMContentLoaded", function () {
+                    const menuButton = document.getElementById("menu-button");
+                    const mainMenu = document.getElementById("main-menu");
+                    const dropdownToggle = document.getElementById("dropdown-toggle");
+                    const dropdownMenu = document.getElementById("dropdown-menu");
+
+                    // Mobile menu toggle
+                    menuButton.addEventListener("click", function () {
+                        mainMenu.classList.toggle("hidden");
+                    });
+
+                    // Dropdown toggle
+                    dropdownToggle.addEventListener("click", function (event) {
+                        event.stopPropagation(); // Prevent closing immediately
+                        dropdownMenu.classList.toggle("hidden");
+                    });
+
+                    // Close dropdown when clicking outside
+                    document.addEventListener("click", function (event) {
+                        if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                            dropdownMenu.classList.add("hidden");
+                        }
+                    });
                 });
             </script>
+
+
         </header>
 
         <div>
