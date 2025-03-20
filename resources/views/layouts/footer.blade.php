@@ -1,93 +1,66 @@
-<footer class="bg-gray-800 py-20 mt-20">
-    <div class="sm:grid grid-cols-3 w-4/5 pb-10 m-auto border-b-2 border-gray-700">
+<footer class="bg-yellow-900 py-20 mt-20 text-gray-100">
+    <div class="sm:grid grid-cols-3 w-4/5 pb-10 m-auto border-b-2 border-yellow-700">
+        <!-- Pages Section -->
         <div>
-            <h3 class="text-l sm:font-bold text-gray-100">
-                Pages
+            <h3 class="text-lg font-bold text-white uppercase">
+                Explore
             </h3>
-
-            <ul class="py-4 sm:text-s pt-4 text-gray-400">
+            <ul class="py-4 text-sm pt-4 text-gray-300">
                 <li class="pb-1">
-                    <a href="/">
-                        Home
-                    </a>
+                    <a href="/" class="hover:text-orange-400 transition">Home</a>
                 </li>
                 <li class="pb-1">
-                    <a href="/blog">
-                        Blog
-                    </a>
+                    <a href="/blogs" class="hover:text-orange-400 transition">Blog</a>
                 </li>
                 <li class="pb-1">
-                    <a href="/login">
-                        Login
-                    </a>
+                    <a href="/about" class="hover:text-orange-400 transition">About Us</a>
                 </li>
                 <li class="pb-1">
-                    <a href="/register">
-                        Register
-                    </a>
+                    <a href="/contact" class="hover:text-orange-400 transition">Contact</a>
                 </li>
             </ul>
         </div>
 
+        <!-- Social Media Section -->
         <div>
-            <h3 class="text-l sm:font-bold text-gray-100">
-                Find Us
+            <h3 class="text-lg font-bold text-white uppercase">
+                Connect With Us
             </h3>
-
-            <ul class="py-4 sm:text-s pt-4 text-gray-400">
+            <ul class="py-4 text-sm pt-4 text-gray-300">
                 <li class="pb-1">
-                    <a href="/">
-                        What we do
-                    </a>
+                    <a href="https://facebook.com" target="_blank" class="hover:text-orange-400 transition">Facebook</a>
                 </li>
                 <li class="pb-1">
-                    <a href="/">
-                        Address
-                    </a>
+                    <a href="https://twitter.com" target="_blank" class="hover:text-orange-400 transition">Twitter</a>
                 </li>
                 <li class="pb-1">
-                    <a href="/">
-                        Phone
-                    </a>
+                    <a href="https://instagram.com" target="_blank" class="hover:text-orange-400 transition">Instagram</a>
                 </li>
                 <li class="pb-1">
-                    <a href="/">
-                        Contact
-                    </a>
+                    <a href="https://youtube.com" target="_blank" class="hover:text-orange-400 transition">YouTube</a>
                 </li>
             </ul>
         </div>
 
-        <div>
-            <h3 class="text-l sm:font-bold text-gray-100">
-                Latest posts
-            </h3>
-
-            <ul class="py-4 sm:text-s pt-4 text-gray-400">
-                <li class="pb-1">
-                    <a href="/">
-                        Why we love tech
-                    </a>
-                </li>
-                <li class="pb-1">
-                    <a href="/">
-                        Why we love design
-                    </a>
-                </li>
-                <li class="pb-1">
-                    <a href="/">
-                        Why to use Laravel
-                    </a>
-                </li>
-                <li class="pb-1">
-                    <a href="/">
-                        Why PHP is the best
-                    </a>
-                </li>
-            </ul>
-        </div>
+        <!-- Latest Blog Posts (Dynamic) -->
+{{--        <div>--}}
+{{--            <h3 class="text-lg font-bold text-white uppercase">--}}
+{{--                Latest Posts--}}
+{{--            </h3>--}}
+{{--            <ul class="py-4 text-sm pt-4 text-gray-300">--}}
+{{--                @foreach($latestPosts as $post)--}}
+{{--                    <li class="pb-1">--}}
+{{--                        <a href="{{ route('blog.show', $post->id) }}" class="hover:text-orange-400 transition">--}}
+{{--                            {{ $post->title }}--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                @endforeach--}}
+{{--            </ul>--}}
+{{--        </div>--}}
     </div>
-    <p class="w-25 w-4/5 pb-3 m-auto text-xs text-gray-100 pt-6">
-        Copyright 2017-2021 Code With Dary. All Rights Reserved
+
+    <!-- Copyright Section -->
+    <p class="w-4/5 pb-3 m-auto text-xs text-gray-300 pt-6 text-center">
+        © {{ now()->year }} Afrobeats Blog. All Rights Reserved.
     </p>
 </footer>
