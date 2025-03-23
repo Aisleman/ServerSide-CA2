@@ -29,6 +29,14 @@ Route::get('/blogs/create', [PostsController::class, 'create'])->name('blogs.cre
 Route::post('/blogs', [PostsController::class, 'store'])->name('blogs.store');
 Route::get('/blogs/{post}', [PostsController::class, 'show'])->name('blogs.show');
 Route::get('/artists', [ArtistController::class, 'index'])->name('artists.index');
+Route::middleware(['auth', 'role:admin,editor'])->group(function ()
+{
+    Route::get('/artists/create', [ArtistController::class, 'create'])->name('artists.create');
+    Route::post('/artists', [ArtistController::class, 'store'])->name('artists.store');
+    Route::get('/artists/{id}/edit', [ArtistController::class, 'edit'])->name('artists.edit');
+    Route::put('/artists/{id}', [ArtistController::class, 'update'])->name('artists.update');
+    Route::delete('/artists/{id}', [ArtistController::class, 'destroy'])->name('artists.destroy');
+});
 Route::get('/artists/{id}', [ArtistController::class, 'show'])->name('artists.show');
 Route::get('/profile', [PagesController::class, 'profile'])->name('profile')->middleware('auth');
 
