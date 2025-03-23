@@ -11,15 +11,6 @@ class PagesController extends Controller
         return view('index'); // Home Page
     }
 
-    public function blogs()
-    {
-        return view('blogs'); // Blog Page
-    }
-    public function top50()
-    {
-        return view('top50'); // Top 50 Page
-    }
-
     public function profile()
     {
         // Ensure the user is authenticated before showing the profile
