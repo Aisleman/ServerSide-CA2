@@ -67,7 +67,6 @@ class PostsController extends Controller
         return view('blogs.edit', compact('post'));
     }
 
-
     public function update(Request $request, $slug)
     {
         $request->validate([
@@ -95,7 +94,6 @@ class PostsController extends Controller
         return redirect()->route('blogs.index')->with('success', 'Post updated!');
     }
 
-
     public function destroy($slug)
     {
         $post = Post::where('slug', $slug)->firstOrFail();
@@ -113,25 +111,24 @@ class PostsController extends Controller
         return redirect()->route('blogs.index')->with('success', 'Post deleted successfully!');
     }
 
-
     public function review()
     {
         $posts = Post::where('status', 'pending')->latest()->get();
         return view('blogs.review', compact('posts'));
     }
 
-    public function approve($id)
+    public function approve($slug)
     {
-        $post = Post::findOrFail($id);
+        $post = Post::where('slug', $slug)->firstOrFail();
         $post->status = 'approved';
         $post->save();
 
         return redirect()->back()->with('success', 'Post approved successfully!');
     }
 
-    public function decline($id)
+    public function decline($slug)
     {
-        $post = Post::findOrFail($id);
+        $post = Post::where('slug', $slug)->firstOrFail();
         $post->status = 'declined';
         $post->save();
 

@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use App\Models\Post;
 
-
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -27,8 +26,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Only show approved blog posts in global "latestPosts"
         View::composer('*', function ($view) {
-            $latestPosts = Post::orderBy('created_at', 'desc')->take(5)->get();
+            $latestPosts = Post::where('status', 'approved')
+                ->orderBy('created_at', 'desc')
+                ->take(5)
+                ->get();
+
             $view->with('latestPosts', $latestPosts);
         });
 
