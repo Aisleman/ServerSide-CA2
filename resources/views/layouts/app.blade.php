@@ -37,6 +37,24 @@
                     Top 20
                 </a>
 
+                @auth
+                    @php
+                        $pendingCount = \App\Models\Post::where('status', 'pending')->count();
+                    @endphp
+
+                    @if (in_array(Auth::user()->role, ['admin', 'editor']))
+                        <a href="{{ route('blogs.review') }}"
+                           class="{{ request()->is('blogs/review') ? 'text-yellow-300 font-bold border-b-2 border-yellow-300' : 'hover:text-yellow-300 transition duration-300' }}">
+                            Review Blogs
+                            @if($pendingCount > 0)
+                                <span class="ml-1 bg-red-600 text-white text-xs px-2 py-0.5 rounded-full">
+                                    {{ $pendingCount }}
+                                </span>
+                            @endif
+                        </a>
+                    @endif
+                @endauth
+
                 @guest
                     <a href="{{ route('login') }}" class="{{ request()->is('login') ? 'text-yellow-300 font-bold border-b-2 border-yellow-300' : 'hover:text-yellow-300 transition duration-300' }}">
                         Login
@@ -82,6 +100,19 @@
             <a href="{{ route('artists.index') }}" class="{{ request()->routeIs('artists.index') ? 'text-yellow-300 font-bold border-b-2 border-yellow-300' : 'hover:text-yellow-300 transition duration-300' }}">
                 Top 20
             </a>
+
+            @auth
+                @if (in_array(Auth::user()->role, ['admin', 'editor']))
+                    <a href="{{ route('blogs.review') }}" class="block py-2 hover:text-yellow-300">
+                        Review Blogs
+                        @if($pendingCount > 0)
+                            <span class="ml-1 bg-red-600 text-white text-xs px-2 py-0.5 rounded-full">
+                                {{ $pendingCount }}
+                            </span>
+                        @endif
+                    </a>
+                @endif
+            @endauth
 
             @guest
                 <a href="{{ route('login') }}" class="{{ request()->is('login') ? 'text-yellow-300 font-bold border-b-2 border-yellow-300' : 'hover:text-yellow-300 transition duration-300' }}">

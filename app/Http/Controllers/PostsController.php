@@ -17,13 +17,13 @@ class PostsController extends Controller
 
     public function index()
     {
-        $posts = Post::orderBy('updated_at', 'DESC')->get();
-        return view('blog.index', compact('posts'));
+        $posts = Post::where('status', 'approved')->orderBy('updated_at', 'DESC')->get();
+        return view('blogs.index', compact('posts'));
     }
 
     public function create()
     {
-        return view('blog.create');
+        return view('blogs.create');
     }
 
     public function store(Request $request)
@@ -44,27 +44,29 @@ class PostsController extends Controller
             'image_path' => 'images/' . $originalName,
             'slug' => SlugService::createSlug(Post::class, 'slug', $request->title),
             'user_id' => Auth::id(),
+            'status' => 'pending',
         ]);
 
-        return redirect()->route('blogs.index')->with('success', 'Post created successfully!');
+        return redirect()->route('blogs.index')->with('success', 'Post submitted for review.');
     }
 
     public function show($slug)
     {
         $post = Post::where('slug', $slug)->firstOrFail();
-        return view('blog.show', compact('post'));
+        return view('blogs.show', compact('post'));
     }
 
     public function edit($slug)
     {
         $post = Post::where('slug', $slug)->firstOrFail();
 
-        if ($post->user_id !== Auth::id()) {
+        if (Auth::user()->id !== $post->user_id && !in_array(Auth::user()->role, ['admin', 'editor'])) {
             return redirect()->route('blogs.index')->with('error', 'You are not authorized to edit this post.');
         }
 
-        return view('blog.edit', compact('post'));
+        return view('blogs.edit', compact('post'));
     }
+
 
     public function update(Request $request, $slug)
     {
@@ -76,11 +78,11 @@ class PostsController extends Controller
         $post = Post::where('slug', $slug)->firstOrFail();
 
         if ($post->user_id !== Auth::id()) {
-            return redirect()->route('blogs.index')->with('error', 'You are not authorized to update this post.');
+            return redirect()->route('blogs.index')->with('error', 'Unauthorized');
         }
 
         $newSlug = $post->slug;
-        if ($post->title !== $request->title) {
+        if ($request->title !== $post->title) {
             $newSlug = SlugService::createSlug(Post::class, 'slug', $request->title);
         }
 
@@ -88,11 +90,11 @@ class PostsController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'slug' => $newSlug,
-            'updated_at' => now(),
         ]);
 
-        return redirect()->route('blogs.index')->with('success', 'Post updated successfully!');
+        return redirect()->route('blogs.index')->with('success', 'Post updated!');
     }
+
 
     public function destroy($slug)
     {
@@ -109,5 +111,30 @@ class PostsController extends Controller
         $post->delete();
 
         return redirect()->route('blogs.index')->with('success', 'Post deleted successfully!');
+    }
+
+
+    public function review()
+    {
+        $posts = Post::where('status', 'pending')->latest()->get();
+        return view('blogs.review', compact('posts'));
+    }
+
+    public function approve($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->status = 'approved';
+        $post->save();
+
+        return redirect()->back()->with('success', 'Post approved successfully!');
+    }
+
+    public function decline($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->status = 'declined';
+        $post->save();
+
+        return redirect()->back()->with('success', 'Post declined successfully!');
     }
 }
