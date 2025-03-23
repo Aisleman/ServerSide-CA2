@@ -16,6 +16,8 @@ use App\Http\Controllers\ProfileController;
 */
 
 Route::get('/', [PagesController::class, 'index']);
+Route::get('/about', [PagesController::class, 'about'])->name('about');
+Route::get('/contact', [PagesController::class, 'contact'])->name('contact');
 
 Auth::routes();
 
