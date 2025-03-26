@@ -1,49 +1,45 @@
-## AfroBeats Blog
+# Afrobeats Blog 🎶🇳🇬
 
-This repository is linked to [this youtube video](https://www.youtube.com/watch?v=HKJDLXsTr8A&t=4710s) where I show you how to create a complete blog in Laravel 8 using best practices.
+Welcome to the **Afrobeats Blog** – a Laravel-based web application that celebrates the top 20 Afrobeats artists with one hit song each! Whether you're a fan of Burna Boy, Tems, Rema, or Ayra Starr, this blog is for you.
 
-•	Author: David Moses-Ailemen <br>
-•	Twitter: Aisleman(https://twitter.com/codewithdary) <br>
-•	Instagram: Aisleman(https://www.instagram.com/codewithdary/) <br>
+## 🛠️ Tech Stack
 
-## Requirements
-•	PHP 7.3 or higher <br>
-•	Node 12.13.0 or higher <br>
+- **Framework**: Laravel 10
+- **Language**: PHP
+- **Database**: MySQL (via XAMPP)
+- **Views**: Blade templating engine
+- **Version Control**: GitHub
 
-## Usage <br>
-Setting up your development environment on your local machine: <br>
-```
-git clone git@github.com:codewithdary/laravel-8-complete-blog.git
-cd laravel-8-complete-blog
-cp .env.example .env
-composer install
-php artisan key:generate
-php artisan cache:clear && php artisan config:clear
-php artisan serve
-```
+## 🚀 Features
 
-## Before starting <br>
-Create a database <br>
-```
-mysql
-create database laravelblog;
-exit;
-```
+- 🎤 **Top 20 Artists Page** – Displays a curated list of the top 20 Afrobeats artists with one selected song.
+- 📺 **YouTube Integration** – Each artist’s page features a visualizer or official music video via embedded YouTube.
+- 🧑‍💼 **Role-Based Access Control**:
+    - **Admin & Editor** – Can create and edit artist profiles.
+    - **User** – Can view artist pages and submit blog posts for approval.
+- ✍️ **Blog Post System** – Users can create blog posts, which go to admins/editors for approval before publishing.
+- 👤 **Profile Management** – Each user can edit their own name, email, and password separately in a clean interface.
 
-Setup your database credentials in the .env file <br>
-```
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=laravelblog
-DB_USERNAME={USERNAME}
-DB_PASSWORD={PASSWORD}
-```
 
-Migrate the tables
-```
-php artisan migrate
-```
 
-## Contributing
-Do not hesitate to contribute to the project by adapting or adding features ! Bug reports or pull requests are welcome.
+*(Add screenshots of the artist list page, individual artist profile, blog post approval, and user profile editing.)*
+
+## 🔐 User Roles
+
+| Role     | Permissions                                                  |
+|----------|--------------------------------------------------------------|
+| Admin    | Manage artists, approve/decline blogs, full access           |
+| Editor   | Same as Admin, except user management                        |
+| User     | Submit blog posts, manage own profile                        |
+
+## 📝 How to Use
+
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/your-username/afrobeats-blog.git
+
+
+## 📝 Credits
+
+Created by [David Moses-Ailemen] – Inspired by the rhythm and power of Afrobeats.
+
